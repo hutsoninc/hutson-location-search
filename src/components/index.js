@@ -17,7 +17,7 @@ data.forEach(loc => {
 });
 
 function metersToMiles(meters){
-    return meters / 1609.344;
+    return (meters / 1609.344).toFixed(2);
 }
 
 function secondsToTime(seconds){
@@ -59,6 +59,8 @@ export default class extends React.Component {
         this.updateDistances = this.updateDistances.bind(this);
         this.fetchSuggestions = debounce(this.fetchSuggestions, 400);
         this.updateWithSuggestion = this.updateWithSuggestion.bind(this);
+        this.hideSuggestions = this.hideSuggestions.bind(this);
+        this.showSuggestions = this.showSuggestions.bind(this);
     }
 
     handleChange(e) {
@@ -72,11 +74,29 @@ export default class extends React.Component {
         }
     }
 
+    hideSuggestions(){
+        if(!this.state.suggestionsHidden){
+            this.setState({
+                suggestionsHidden: true
+            });
+        }
+    }
+    
+    showSuggestions(){
+        if(this.state.suggestionsHidden){
+            this.setState({
+                suggestionsHidden: false
+            });
+        }
+    }
+
     fetchSuggestions(){
         this.onSearch();
     }
 
     updateWithSuggestion(e){
+        if(this.state.search === e.target.innerHTML) return;
+
         let suggestionObj = this.state.suggestions.find(suggestion => suggestion.name.toLowerCase() === e.target.innerHTML.toLowerCase());
         
         this.setState({
@@ -89,7 +109,7 @@ export default class extends React.Component {
     }
 
     async getMatrix(searchCoords){
-        let searchURL = config.baseURL + config.matrixPath + searchCoords.join(',') + ';' + config.hutsonCoords.join(';') + '/?access_token=' + process.env.REACT_APP_MAPBOX_TOKEN;
+        let searchURL = config.baseURL + config.matrixPath + searchCoords.join(',') + ';' + config.hutsonCoords.join(';') + '/?access_token=' + process.env.REACT_APP_MAPBOX_TOKEN + '&annotations=duration,distance&sources=0';
         let res, body;
 
         try {
@@ -119,30 +139,36 @@ export default class extends React.Component {
     }
 
     updateDistances(body){
-        let updatedLocations = this.state.locations;
+        let updatedLocations = data;
 
         for(let i = 0; i < updatedLocations.length; i++){
             let time = body.durations[0][i + 1];
             updatedLocations[i].duration = time;
+            let distance = body.distances[0][i + 1];
+            updatedLocations[i].distance = distance;
         }
-          
-        updatedLocations.sort((a, b) => {
-            if (a.duration < b.duration)
-              return -1;
-            if (a.duration > b.duration)
-              return 1;
+
+        let sortedLocations = Array.from(updatedLocations);
+
+        sortedLocations.sort((a, b) => {
+            if(a.duration < b.duration) {
+                return -1;
+            }
+            if(a.duration > b.duration) {
+                return 1;
+            }
             return 0;
         });
 
         this.setState({
-            locations: updatedLocations
-        })
+            locations: sortedLocations
+        });
 
     }
 
     async onSearch(){
 
-        let searchURL = config.baseURL + config.geocodePath + encodeURIComponent(this.state.search) + '.json' + '?access_token=' + process.env.REACT_APP_MAPBOX_TOKEN;
+        let searchURL = config.baseURL + config.geocodePath + encodeURIComponent(this.state.search) + '.json?access_token=' + process.env.REACT_APP_MAPBOX_TOKEN;
         let res, body;
 
         try {
@@ -170,6 +196,8 @@ export default class extends React.Component {
     }
 
     onSuccess(body) {
+
+        if(!body.features[0]) return;
 
         let locations = [];
 
@@ -201,41 +229,95 @@ export default class extends React.Component {
 		});
     }
     
+    componentDidMount(){
+        document.addEventListener('click', d => {
+            if(d.target.id === 'search' || d.target.class === 'search-item'){
+                this.showSuggestions();
+            }else {
+                this.hideSuggestions();
+            }
+        });
+    }
+
     render(){
         return (
             <div className="main">
                 <div className="search">
-                    <h2>Enter an address</h2>
                     <div>
-                        <input type="text" className="search-bar" onChange={this.handleChange} value={this.state.search} placeholder="Search..." />
-                        {this.state.suggestions.length > 0 && !this.state.suggestionsHidden &&
-                            <ul className="suggestions-list">
+                        <input type="text" id="search" className="search-bar" onClick={this.showSuggestions} onChange={this.handleChange} value={this.state.search} autoFocus placeholder="Search..." />
+                        {this.state.suggestions.length > 0 &&
+                            <ul className="suggestions-list" style={!this.state.suggestionsHidden ? {display: 'block'} : {display: 'none'}}>
                                 {this.state.suggestions.map((suggestion, key) => (
-                                    <li key={key} onClick={this.updateWithSuggestion}>{suggestion.name}</li>
+                                    <li key={key} className="search-item" onClick={this.updateWithSuggestion}>{suggestion.name}</li>
                                 ))}
                             </ul>
                         }
                     </div>
                 </div>
                 <div className="results">
-                    <ul className="results-list">
-                        {this.state.locations.map((location, key) => (
-                            <li key={key}>
-                                <h3>{location.name}</h3>
-                                <p>{location.address}</p>
-                                {location.duration &&
-                                    <p>Drive time: {secondsToTime(location.duration)}</p>
-                                }
-                                <p>Phone: {location.phone}</p>
-                                {location.parts &&
-                                    <p>Parts: {location.parts}</p>
-                                }
-                                {location.service &&
-                                    <p>Service: {location.service}</p>
-                                }
-                            </li>
-                        ))}
-                    </ul>
+                    <table className="results-table">
+                        <tbody>
+                            <tr>
+                                <th>
+                                    Location
+                                </th>
+                                <th>
+                                    Phone
+                                </th>
+                                <th>
+                                    Parts
+                                </th>
+                                <th>
+                                    Service
+                                </th>
+                                <th>
+                                    Drive Time
+                                </th>
+                            </tr>
+                            {this.state.locations.map((location, key) => (
+                                <tr key={key}>
+                                    <td>
+                                        <div className="location-header">
+                                            <h3>{location.name}</h3>
+                                            {location.distance && 
+                                                <span>
+                                                    ({metersToMiles(location.distance)} miles)
+                                                </span>
+                                            }
+                                        </div>
+                                        <p>{location.address}</p>
+                                    </td>
+                                    <td>
+                                        <p>{location.phone}</p>
+                                    </td>
+                                    <td>
+                                        {location.parts &&
+                                            <p>{location.parts}</p>
+                                        }
+                                        {!location.parts &&
+                                            <p>-</p>
+                                        }
+                                    </td>
+                                    <td>
+                                        {location.service &&
+                                            <p>{location.service}</p>
+                                        }
+                                        {!location.service &&
+                                            <p>-</p>
+                                        }
+                                    </td>
+                                    <td>
+                                        {location.duration &&
+                                            <p>{secondsToTime(location.duration)}</p>
+                                        }
+                                        {!location.duration &&
+                                            <p>-</p>
+                                        }
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         );

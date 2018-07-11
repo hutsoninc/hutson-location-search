@@ -4,18 +4,41 @@ body, html {
     height: 100%;
     width: 100%;
     font-family: Arial, Helvetica, sans-serif;
+    background-color: #efefef;
+}
+
+.app {
+    width: 1200px;
+    max-width: 1200px;
+    margin: 0 auto;
+    box-shadow: 0 0 5px rgba(0,0,0,0.15);
+}
+
+header {
+    background-color: #377539;
+    color: #fff;
+    position: relative;
 }
 
 .main {
-    width: 900px;
-    max-width: 900px;
-    margin: 0 auto;
+    background-color: #fff;
+}
+
+h1 {
+    padding: 50px 50px 0;
+    margin: 0;
+}
+
+#logo {
+    position: absolute;
+    right: 0;
+    bottom: 0;
 }
 
 .search {
     width: 100%;
-    background-color: #dfdfdf;
-    padding: 25px;
+    background-color: #377539;
+    padding: 25px 50px;
     box-sizing: border-box;
 }
 
@@ -31,7 +54,7 @@ body, html {
     list-style: none;
     padding: 0;
     margin: 0;
-    width: 850px;
+    width: 1100px;
     background-color: #fff;
     border: 1px solid #bfbfbf;
     box-sizing: border-box;
@@ -49,26 +72,53 @@ body, html {
     border-bottom: 1px solid #dfdfdf;
 }
 
-.results-list {
+.results {
     list-style: none;
-    padding: 0;
+    padding: 25px 50px;
+    box-sizing: border-box;
     margin: 0;
     width: 100%;
 }
 
-.results-list h3 {
+.results-list .location-header {
     margin: 0 0 5px;
 }
 
-.results-list p {
+.results-table {
+    width: 100%;
+    box-sizing: border-box;
+    border-collapse: collapse;
+    border: none;
+}
+
+.results-table th, .results-table td {
+    padding: 10px;
+    text-align: left;
+}
+
+.location-header h3 {
+    margin: 0 8px 4px 0;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.location-header span {
+    font-style: italic;
+    vertical-align: middle;
+}
+
+.results-table p {
     margin: 0;
 }
 
-.results-list li {
-    padding: 25px;
-    box-sizing: border-box;
+.results-table tr:not(:last-child) {
+    border-bottom: 1px solid #dfdfdf;
 }
 
-.results-list li:not(:last-child) {
-    border-bottom: 1px solid #dfdfdf;
+.results-table tr:first-child {
+    border-bottom: 1px solid #7d7d7d;
+}
+
+.results-table tr:nth-child(even) {
+    background-color: #fbfbfb;
 }
