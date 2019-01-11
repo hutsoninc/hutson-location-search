@@ -1,9 +1,9 @@
 # hutson-location-search
 
-## Authors
+https://hutson-location-search.netlify.com/
 
-* **Austin Gordon** - *Development* - [GitHub](https://github.com/AustinLeeGordon)
+Internal tool for finding nearby Hutson locations.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+MIT © [Hutson Inc](https://www.hutsoninc.com)

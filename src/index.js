@@ -11,7 +11,7 @@ const App = () => {
             <Index />
         </div>
     );
-}
+};
 
 ReactDOM.render(
     <App />,

@@ -1,9 +1,9 @@
 import React from 'react';
 import fetch from 'isomorphic-fetch';
-import data from '../data/store-data';
-import { debounce } from './helpers';
+import hutsonData from 'hutson-location-data';
+import { debounce, metersToMiles, secondsToTime, formatPhoneNumber } from './helpers';
 
-if (process.env.NODE_ENV !== 'production') require('dotenv').config();
+require('dotenv').config();
 
 const config = {
     baseURL: 'https://api.mapbox.com',
@@ -12,32 +12,18 @@ const config = {
     hutsonCoords: []
 };
 
-data.forEach(loc => {
+let data = hutsonData;
+
+data.map(loc => {
     config.hutsonCoords.push(loc.coordinates.join(','));
+    loc.phone = formatPhoneNumber(loc.phone);
+    loc.partsPhone = formatPhoneNumber(loc.partsPhone);
+    loc.servicePhone = formatPhoneNumber(loc.servicePhone);
+    return loc;
 });
 
-function metersToMiles(meters){
-    return (meters / 1609.344).toFixed(2);
-}
-
-function secondsToTime(seconds){
-    let h, m;
-    let out = [];
-
-    if(seconds / 3600 > 1) {
-        h = Math.floor(seconds / 3600);
-        seconds = seconds - h * 3600;
-        out.push(h + 'h');
-    }
-
-    m = Math.floor(seconds / 60);
-    out.push(m + 'm');
-
-    return out.join(' ');
-}
-
 export default class extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
@@ -62,43 +48,36 @@ export default class extends React.Component {
         this.hideSuggestions = this.hideSuggestions.bind(this);
         this.showSuggestions = this.showSuggestions.bind(this);
     }
-
     handleChange(e) {
-        
         this.setState({
             search: e.target.value
         });
-
-        if(e.target.value){
+        if (e.target.value) {
             this.fetchSuggestions();
         }
     }
-
-    hideSuggestions(){
-        if(!this.state.suggestionsHidden){
+    hideSuggestions() {
+        if (!this.state.suggestionsHidden) {
             this.setState({
                 suggestionsHidden: true
             });
         }
     }
-    
-    showSuggestions(){
-        if(this.state.suggestionsHidden){
+    showSuggestions() {
+        if (this.state.suggestionsHidden) {
             this.setState({
                 suggestionsHidden: false
             });
         }
     }
-
-    fetchSuggestions(){
+    fetchSuggestions() {
         this.onSearch();
     }
-
-    updateWithSuggestion(e){
-        if(this.state.search === e.target.innerHTML) return;
+    updateWithSuggestion(e) {
+        if (this.state.search === e.target.innerHTML) return;
 
         let suggestionObj = this.state.suggestions.find(suggestion => suggestion.name.toLowerCase() === e.target.innerHTML.toLowerCase());
-        
+
         this.setState({
             search: e.target.innerHTML,
             searchCoords: suggestionObj.coords,
@@ -107,41 +86,34 @@ export default class extends React.Component {
 
         this.getMatrix(suggestionObj.coords);
     }
-
-    async getMatrix(searchCoords){
+    async getMatrix(searchCoords) {
         let searchURL = config.baseURL + config.matrixPath + searchCoords.join(',') + ';' + config.hutsonCoords.join(';') + '/?access_token=' + process.env.REACT_APP_MAPBOX_TOKEN + '&annotations=duration,distance&sources=0';
         let res, body;
 
         try {
-			res = await fetch(searchURL, {
-				method: `get`
-			});
-		}
-		catch(err) {
-            // return this.onError(`Connection error`);
-            console.log(err);
-        }
-        
-		if (res.status !== 200) {
-			return this.onError(`Error: ${res.statusText}`);
-        }
-        
-		try {
-			body = await res.json();
-        }
-        catch(err) {
-			return this.onError(`Error parsing JSON`);
+            res = await fetch(searchURL, {
+                method: `get`
+            });
+        } catch (err) {
+            return this.onError(`Connection error`);
         }
 
-        console.log(body);
+        if (res.status !== 200) {
+            return this.onError(`Error: ${res.statusText}`);
+        }
+
+        try {
+            body = await res.json();
+        } catch (err) {
+            return this.onError(`Error parsing JSON`);
+        }
 
         this.updateDistances(body);
     }
-
-    updateDistances(body){
+    updateDistances(body) {
         let updatedLocations = data;
 
-        for(let i = 0; i < updatedLocations.length; i++){
+        for (let i = 0; i < updatedLocations.length; i++) {
             let time = body.durations[0][i + 1];
             updatedLocations[i].duration = time;
             let distance = body.distances[0][i + 1];
@@ -151,10 +123,10 @@ export default class extends React.Component {
         let sortedLocations = Array.from(updatedLocations);
 
         sortedLocations.sort((a, b) => {
-            if(a.duration < b.duration) {
+            if (a.duration < b.duration) {
                 return -1;
             }
-            if(a.duration > b.duration) {
+            if (a.duration > b.duration) {
                 return 1;
             }
             return 0;
@@ -165,88 +137,78 @@ export default class extends React.Component {
         });
 
     }
-
-    async onSearch(){
+    async onSearch() {
 
         let searchURL = config.baseURL + config.geocodePath + encodeURIComponent(this.state.search) + '.json?access_token=' + process.env.REACT_APP_MAPBOX_TOKEN;
         let res, body;
 
         try {
-			res = await fetch(searchURL, {
-				method: `get`
-			});
-		}
-		catch(err) {
-            // return this.onError(`Connection error`);
-            console.log(err);
+            res = await fetch(searchURL, {
+                method: `get`
+            });
         }
-        
-		if (res.status !== 200) {
-			return this.onError(`Error: ${res.statusText}`);
+        catch (err) {
+            return this.onError(`Connection error`);
         }
-        
-		try {
-			body = await res.json();
+
+        if (res.status !== 200) {
+            return this.onError(`Error: ${res.statusText}`);
         }
-        catch(err) {
-			return this.onError(`Error parsing JSON`);
+
+        try {
+            body = await res.json();
+        }
+        catch (err) {
+            return this.onError(`Error parsing JSON`);
         }
 
         this.onSuccess(body);
     }
-
     onSuccess(body) {
 
-        if(!body.features[0]) return;
+        if (!body.features[0]) return;
 
         let locations = [];
 
-        for(let i = 0; i < 5; i++) {
+        for (let i = 0; i < 5; i++) {
             locations.push({
                 name: body.features[i].place_name,
                 coords: body.features[i].geometry.coordinates
             });
         }
-        
-		this.setState({
-			loading: false,
-			success: body,
+
+        this.setState({
+            loading: false,
+            success: body,
             error: false,
             suggestions: locations,
             suggestionsHidden: false
         });
-        
-        console.log(this.state.success);
     }
-    
-	onError(err) {
-        console.error(err);
-                
-		this.setState({
-			loading: false,
-			error: err,
-			success: false,
-		});
+    onError(err) {
+        this.setState({
+            loading: false,
+            error: err,
+            success: false,
+        });
     }
-    
-    componentDidMount(){
+    componentDidMount() {
         document.addEventListener('click', d => {
-            if(d.target.id === 'search' || d.target.class === 'search-item'){
+            if (d.target.id === 'search' || d.target.class === 'search-item') {
                 this.showSuggestions();
-            }else {
+            } else {
                 this.hideSuggestions();
             }
         });
     }
-
-    render(){
+    render() {
         return (
             <div className="main">
                 <div className="search">
                     <div>
                         <input type="text" id="search" className="search-bar" onClick={this.showSuggestions} onChange={this.handleChange} value={this.state.search} autoFocus placeholder="Search..." />
                         {this.state.suggestions.length > 0 &&
-                            <ul className="suggestions-list" style={!this.state.suggestionsHidden ? {display: 'block'} : {display: 'none'}}>
+                            <ul className="suggestions-list" style={!this.state.suggestionsHidden ? { display: 'block' } : { display: 'none' }}>
                                 {this.state.suggestions.map((suggestion, key) => (
                                     <li key={key} className="search-item" onClick={this.updateWithSuggestion}>{suggestion.name}</li>
                                 ))}
@@ -278,33 +240,23 @@ export default class extends React.Component {
                                 <tr key={key}>
                                     <td>
                                         <div className="location-header">
-                                            <h3>{location.name}</h3>
-                                            {location.distance && 
+                                            <h3>{location.title}</h3>
+                                            {location.distance &&
                                                 <span>
                                                     ({metersToMiles(location.distance)} miles)
                                                 </span>
                                             }
                                         </div>
-                                        <p>{location.address}</p>
+                                        <p>{location.address}, {location.city}, {location.state} {location.zip}</p>
                                     </td>
                                     <td>
                                         <p>{location.phone}</p>
                                     </td>
                                     <td>
-                                        {location.parts &&
-                                            <p>{location.parts}</p>
-                                        }
-                                        {!location.parts &&
-                                            <p>-</p>
-                                        }
+                                        <p>{location.partsPhone || '-'}</p>
                                     </td>
                                     <td>
-                                        {location.service &&
-                                            <p>{location.service}</p>
-                                        }
-                                        {!location.service &&
-                                            <p>-</p>
-                                        }
+                                        <p>{location.servicePhone || '-'}</p>
                                     </td>
                                     <td>
                                         {location.duration &&
