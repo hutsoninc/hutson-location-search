@@ -162,8 +162,6 @@ export default class extends React.Component {
             return this.onError(`Error parsing JSON`);
         }
 
-        console.log(body);
-
         this.onSuccess(body);
     }
     onSuccess(body) {
