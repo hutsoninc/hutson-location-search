@@ -162,6 +162,8 @@ export default class extends React.Component {
             return this.onError(`Error parsing JSON`);
         }
 
+        console.log(body);
+
         this.onSuccess(body);
     }
     onSuccess(body) {
@@ -170,7 +172,13 @@ export default class extends React.Component {
 
         let locations = [];
 
-        for (let i = 0; i < 5; i++) {
+        let len = body.features.length;
+
+        if (len > 5) {
+            len = 5;
+        }
+
+        for (let i = 0; i < len; i++) {
             locations.push({
                 name: body.features[i].place_name,
                 coords: body.features[i].geometry.coordinates
