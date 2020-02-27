@@ -23,7 +23,7 @@
     "dotenv": "^6.2.0",
     "hutson-location-data": "^1.0.7",
     "isomorphic-fetch": "^2.2.1",
-    "react": "^16.8.6",
+    "react": "^16.13.0",
     "react-dom": "^16.7.0"
   },
   "devDependencies": {
