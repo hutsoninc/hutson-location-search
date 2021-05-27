@@ -138,7 +138,6 @@ export default class extends React.Component {
             acc.destinations.push(...obj.destinations);
             return acc;
         });
-        console.log(data);
         this.updateDistances(data);
     }
     updateDistances(body) {
@@ -317,19 +316,33 @@ export default class extends React.Component {
                                         </p>
                                     </td>
                                     <td>
-                                        <p>{location.phoneNumber}</p>
+                                        <span className="mobile-label">
+                                            Phone
+                                        </span>
+                                        <p className="phone-number">
+                                            {location.phoneNumber}
+                                        </p>
                                     </td>
                                     <td>
-                                        <p>
+                                        <span className="mobile-label">
+                                            After Hours Parts
+                                        </span>
+                                        <p className="phone-number">
                                             {location.partsPhoneNumber || '-'}
                                         </p>
                                     </td>
                                     <td>
-                                        <p>
+                                        <span className="mobile-label">
+                                            After Hours Service
+                                        </span>
+                                        <p className="phone-number">
                                             {location.servicePhoneNumber || '-'}
                                         </p>
                                     </td>
                                     <td>
+                                        <span className="mobile-label">
+                                            Drive Time
+                                        </span>
                                         {location.duration && (
                                             <p>
                                                 {secondsToTime(

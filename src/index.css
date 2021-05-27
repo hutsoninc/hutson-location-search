@@ -9,7 +9,7 @@ html {
 }
 
 .app {
-    width: 1200px;
+    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
@@ -23,6 +23,7 @@ header {
 
 .main {
     background-color: #fff;
+    margin-top: -1px;
 }
 
 h1 {
@@ -43,6 +44,10 @@ h1 {
     box-sizing: border-box;
 }
 
+.search > div {
+    position: relative;
+}
+
 .search-bar {
     width: 100%;
     padding: 10px;
@@ -51,11 +56,10 @@ h1 {
 
 .suggestions-list {
     position: absolute;
-    width: inherit;
     list-style: none;
     padding: 0;
     margin: 0;
-    width: 1100px;
+    width: 100%;
     background-color: #fff;
     border: 1px solid #bfbfbf;
     box-sizing: border-box;
@@ -129,6 +133,10 @@ h1 {
     text-decoration: underline;
 }
 
+.phone-number {
+    white-space: nowrap;
+}
+
 .results-table p {
     margin: 0;
 }
@@ -143,4 +151,56 @@ h1 {
 
 .results-table tr:nth-child(even) {
     background-color: #fbfbfb;
+}
+
+.mobile-label {
+    display: none;
+}
+
+@media screen and (max-width: 799px) {
+    #logo {
+        display: none;
+    }
+
+    h1 {
+        padding: 30px 20px 0;
+    }
+
+    .search {
+        padding: 15px 20px 30px;
+    }
+
+    .results {
+        padding: 0 10px;
+    }
+
+    .results-table tr {
+        display: block;
+        padding: 20px 0 0;
+    }
+
+    .results-table tr:first-child {
+        display: none;
+    }
+
+    .results-table td:first-child {
+        display: block;
+        padding: 10px 10px 15px;
+    }
+
+    .results-table td:not(:first-child) {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+
+    .results-table td:not(:first-child):not(:last-child) {
+        border-bottom: 1px dashed #dfdfdf;
+    }
+
+    .mobile-label {
+        display: inline-block;
+        font-weight: bold;
+        padding-right: 10px;
+    }
 }
