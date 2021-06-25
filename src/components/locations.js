@@ -483,23 +483,6 @@ const locationsData = [
         zip: 48855,
     },
     {
-        address: '290 N Railroad St',
-        city: 'Rives Junction',
-        geolocation: {
-            _type: 'geopoint',
-            lat: 42.3882704,
-            lng: -84.4657646,
-        },
-        googleMapsLink: 'https://maps.google.com/maps?cid=15618453756614428384',
-        handle: 'rives-junction',
-        locationNumber: 67,
-        partsPhoneNumber: '517-614-0210',
-        phoneNumber: '517-513-6071',
-        state: 'Michigan',
-        title: 'Rives Junction, MI',
-        zip: 49277,
-    },
-    {
         address: '110 S Lincoln St',
         city: 'Charlotte',
         geolocation: {
