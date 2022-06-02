@@ -1,18 +1,14 @@
 {
-    "presets": [
-		"es2015",
-		"stage-3",
-        "react"
-    ],
+    "presets": ["es2015", "stage-3", "react"],
     "plugins": [
-		"syntax-dynamic-import",
-		[
-			"transform-runtime",
-			{
-				"polyfill": false,
-				"regenerator": true
-			}
-		],
-		"add-module-exports"
-	]
+        "syntax-dynamic-import",
+        [
+            "transform-runtime",
+            {
+                "polyfill": false,
+                "regenerator": true
+            }
+        ],
+        "add-module-exports"
+    ]
 }

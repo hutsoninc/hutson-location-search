@@ -1,206 +1,206 @@
 body,
 html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #efefef;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #efefef;
 }
 
 .app {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
 }
 
 header {
-    background-color: #377539;
-    color: #fff;
-    position: relative;
+  background-color: #377539;
+  color: #fff;
+  position: relative;
 }
 
 .main {
-    background-color: #fff;
-    margin-top: -1px;
+  background-color: #fff;
+  margin-top: -1px;
 }
 
 h1 {
-    padding: 50px 50px 0;
-    margin: 0;
+  padding: 50px 50px 0;
+  margin: 0;
 }
 
 #logo {
-    position: absolute;
-    right: 0;
-    bottom: 0;
+  position: absolute;
+  right: 0;
+  bottom: 0;
 }
 
 .search {
-    width: 100%;
-    background-color: #377539;
-    padding: 25px 50px;
-    box-sizing: border-box;
+  width: 100%;
+  background-color: #377539;
+  padding: 25px 50px;
+  box-sizing: border-box;
 }
 
 .search > div {
-    position: relative;
+  position: relative;
 }
 
 .search-bar {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 .suggestions-list {
-    position: absolute;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    background-color: #fff;
-    border: 1px solid #bfbfbf;
-    box-sizing: border-box;
+  position: absolute;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #bfbfbf;
+  box-sizing: border-box;
 }
 
 .suggestions-list li {
-    padding: 0;
-    margin: 0;
-    background-color: #fff;
-    padding: 10px;
-    cursor: pointer;
+  padding: 0;
+  margin: 0;
+  background-color: #fff;
+  padding: 10px;
+  cursor: pointer;
 }
 
 .suggestions-list li:not(:last-child) {
-    border-bottom: 1px solid #dfdfdf;
+  border-bottom: 1px solid #dfdfdf;
 }
 
 .results {
-    list-style: none;
-    padding: 25px 50px;
-    box-sizing: border-box;
-    margin: 0;
-    width: 100%;
+  list-style: none;
+  padding: 25px 50px;
+  box-sizing: border-box;
+  margin: 0;
+  width: 100%;
 }
 
 .results-list .location-header {
-    margin: 0 0 5px;
+  margin: 0 0 5px;
 }
 
 .results-table {
-    width: 100%;
-    box-sizing: border-box;
-    border-collapse: collapse;
-    border: none;
+  width: 100%;
+  box-sizing: border-box;
+  border-collapse: collapse;
+  border: none;
 }
 
 .results-table th,
 .results-table td {
-    padding: 10px;
-    text-align: left;
+  padding: 10px;
+  text-align: left;
 }
 
 .location-header h3 {
-    margin: 0 8px 4px 0;
-    display: inline-block;
-    vertical-align: middle;
+  margin: 0 8px 4px 0;
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .location-header a {
-    color: #377539;
-    text-decoration: none;
+  color: #377539;
+  text-decoration: none;
 }
 
 .location-header a:hover,
 .location-header a:focus {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .location-header span {
-    font-style: italic;
-    vertical-align: middle;
+  font-style: italic;
+  vertical-align: middle;
 }
 
 .location-address a {
-    color: #000;
-    text-decoration: none;
+  color: #000;
+  text-decoration: none;
 }
 
 .location-address a:hover,
 .location-address a:focus {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .phone-number {
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
 .results-table p {
-    margin: 0;
+  margin: 0;
 }
 
 .results-table tr:not(:last-child) {
-    border-bottom: 1px solid #dfdfdf;
+  border-bottom: 1px solid #dfdfdf;
 }
 
 .results-table tr:first-child {
-    border-bottom: 1px solid #7d7d7d;
+  border-bottom: 1px solid #7d7d7d;
 }
 
 .results-table tr:nth-child(even) {
-    background-color: #fbfbfb;
+  background-color: #fbfbfb;
 }
 
 .mobile-label {
-    display: none;
+  display: none;
 }
 
 @media screen and (max-width: 799px) {
-    #logo {
-        display: none;
-    }
+  #logo {
+    display: none;
+  }
 
-    h1 {
-        padding: 30px 20px 0;
-    }
+  h1 {
+    padding: 30px 20px 0;
+  }
 
-    .search {
-        padding: 15px 20px 30px;
-    }
+  .search {
+    padding: 15px 20px 30px;
+  }
 
-    .results {
-        padding: 0 10px;
-    }
+  .results {
+    padding: 0 10px;
+  }
 
-    .results-table tr {
-        display: block;
-        padding: 20px 0 0;
-    }
+  .results-table tr {
+    display: block;
+    padding: 20px 0 0;
+  }
 
-    .results-table tr:first-child {
-        display: none;
-    }
+  .results-table tr:first-child {
+    display: none;
+  }
 
-    .results-table td:first-child {
-        display: block;
-        padding: 10px 10px 15px;
-    }
+  .results-table td:first-child {
+    display: block;
+    padding: 10px 10px 15px;
+  }
 
-    .results-table td:not(:first-child) {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-    }
+  .results-table td:not(:first-child) {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
 
-    .results-table td:not(:first-child):not(:last-child) {
-        border-bottom: 1px dashed #dfdfdf;
-    }
+  .results-table td:not(:first-child):not(:last-child) {
+    border-bottom: 1px dashed #dfdfdf;
+  }
 
-    .mobile-label {
-        display: inline-block;
-        font-weight: bold;
-        padding-right: 10px;
-    }
+  .mobile-label {
+    display: inline-block;
+    font-weight: bold;
+    padding-right: 10px;
+  }
 }

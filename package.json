@@ -4,14 +4,14 @@
   "description": "Internal tool for finding nearby Hutson locations.",
   "main": "index.js",
   "scripts": {
-    "start": "react-scripts start",
     "build": "react-scripts build",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css}\"",
+    "start": "react-scripts start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": {
     "name": "Austin Gordon",
-    "email": "gordon.austin2@gmail.com",
-    "url": "https://www.austinleegordon.com/"
+    "email": "gordon.austin2@gmail.com"
   },
   "browserslist": [
     ">0.2%",
@@ -20,12 +20,14 @@
     "not op_mini all"
   ],
   "dependencies": {
+    "@sanity/client": "^3.3.1",
     "dotenv": "^6.2.0",
     "isomorphic-fetch": "^2.2.1",
     "react": "^16.8.6",
     "react-dom": "^16.7.0"
   },
   "devDependencies": {
+    "@austinleegordon/prettier-config": "^1.0.0",
     "babel-cli": "^6.26.0",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
@@ -33,7 +35,9 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "prettier": "^2.6.2",
     "react-scripts": "^2.1.3"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "prettier": "@austinleegordon/prettier-config"
 }
