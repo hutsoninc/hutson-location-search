@@ -103,6 +103,7 @@ h1 {
 }
 
 .location-header h3 {
+  font-size: 16px;
   margin: 0 8px 4px 0;
   display: inline-block;
   vertical-align: middle;
@@ -138,6 +139,7 @@ h1 {
 }
 
 .results-table p {
+  font-size: 14px;
   margin: 0;
 }
 
@@ -200,6 +202,7 @@ h1 {
 
   .mobile-label {
     display: inline-block;
+    font-size: 14px;
     font-weight: bold;
     padding-right: 10px;
   }

@@ -260,9 +260,10 @@ export default class extends React.Component {
             <tbody>
               <tr>
                 <th>Location</th>
-                <th>Phone</th>
+                {/* <th>Phone</th>
                 <th>After Hours Parts</th>
-                <th>After Hours Service</th>
+                <th>After Hours Service</th> */}
+                <th>Distance</th>
                 <th>Drive Time</th>
               </tr>
               {this.state.locations.map((location, key) => (
@@ -274,7 +275,6 @@ export default class extends React.Component {
                           {location.title}
                         </a>
                       </h3>
-                      {location.distance && <span>({metersToMiles(location.distance)} miles)</span>}
                     </div>
                     <p className='location-address'>
                       <a href={location.googleMapsLink}>
@@ -282,7 +282,7 @@ export default class extends React.Component {
                       </a>
                     </p>
                   </td>
-                  <td>
+                  {/* <td>
                     <span className='mobile-label'>Phone</span>
                     <p className='phone-number'>{location.phoneNumber}</p>
                   </td>
@@ -293,11 +293,14 @@ export default class extends React.Component {
                   <td>
                     <span className='mobile-label'>After Hours Service</span>
                     <p className='phone-number'>{location.servicePhoneNumber || '-'}</p>
+                  </td> */}
+                  <td>
+                    <span className='mobile-label'>Distance</span>
+                    {location.distance ? <p>{metersToMiles(location.distance)} miles</p> : <p>-</p>}
                   </td>
                   <td>
                     <span className='mobile-label'>Drive Time</span>
-                    {location.duration && <p>{secondsToTime(location.duration)}</p>}
-                    {!location.duration && <p>-</p>}
+                    {location.duration ? <p>{secondsToTime(location.duration)}</p> : <p>-</p>}
                   </td>
                 </tr>
               ))}
