@@ -428,22 +428,6 @@ const locationsData = [
     zip: 48895,
   },
   {
-    address: '1155 S Milford Rd',
-    city: 'Highland',
-    geolocation: {
-      _type: 'geopoint',
-      lat: 42.6284637,
-      lng: -83.6181554,
-    },
-    googleMapsLink: 'https://maps.google.com/maps?cid=2268885837745156805',
-    handle: 'highland',
-    locationNumber: 63,
-    phoneNumber: '248-887-2410',
-    state: 'Michigan',
-    title: 'Highland, MI',
-    zip: 48357,
-  },
-  {
     address: '1047 N Shiawassee St',
     city: 'Corunna',
     geolocation: {
