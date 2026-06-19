@@ -24,7 +24,7 @@
     "dotenv": "^6.2.0",
     "isomorphic-fetch": "^2.2.1",
     "react": "^16.8.6",
-    "react-dom": "^16.7.0"
+    "react-dom": "^16.13.0"
   },
   "devDependencies": {
     "@austinleegordon/prettier-config": "^1.0.0",
